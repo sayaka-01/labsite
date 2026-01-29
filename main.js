@@ -1,6 +1,16 @@
 const host = document.getElementById("svgHost");
 const toast = document.getElementById("toast");
 
+// Publications search
+const pubSearch = document.getElementById("pubSearch");
+const pubList = document.getElementById("pubList");
+pubSearch?.addEventListener("input", () => {
+  const q = pubSearch.value.trim().toLowerCase();
+  [...pubList.querySelectorAll("li")].forEach(li => {
+    li.style.display = li.textContent.toLowerCase().includes(q) ? "" : "none";
+  });
+});
+
 function showToast(text){
   toast.textContent = text;
   toast.hidden = false;
@@ -46,8 +56,7 @@ fetch("./assets/brain.svg")
 
     // --- クリック（領域IDを拾う）---
     svg.addEventListener("click", (e) => {
-      // ドラッグ直後の誤クリックを抑制
-      if (moved) return;
+      if (moved) return; // ドラッグ直後の誤クリック抑制
 
       let el = e.target;
       for (let i = 0; i < 6 && el; i++){
@@ -58,7 +67,6 @@ fetch("./assets/brain.svg")
         }
         el = el.parentElement;
       }
-      console.log("Clicked: (no id)");
       showToast("Clicked: (no id)");
     });
   })
