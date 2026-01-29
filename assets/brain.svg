@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 520">
+  <defs>
+    <style>
+      .region { fill: rgba(96,165,250,0.22); stroke: rgba(229,231,235,0.35); stroke-width: 2; }
+      .region:hover { fill: rgba(96,165,250,0.42); cursor: pointer; }
+      .outline { fill: rgba(255,255,255,0.05); stroke: rgba(255,255,255,0.20); stroke-width: 2; }
+      .label { fill: rgba(229,231,235,0.85); font: 600 16px system-ui, sans-serif; }
+    </style>
+  </defs>
+
+  <!-- 脳っぽい輪郭 -->
+  <path class="outline" d="M180,280
+    C160,210 185,140 260,120
+    C300,80 380,70 445,95
+    C520,75 615,115 640,185
+    C700,235 680,320 630,350
+    C610,420 520,460 450,430
+    C390,470 300,455 260,410
+    C205,405 170,350 180,280 Z"/>
+
+  <!-- クリックできる領域（仮） -->
+  <path id="FrontalLobe" class="region"
+    d="M250,155 C210,185 200,240 215,280
+       C230,325 280,350 330,340
+       C310,290 320,240 350,205
+       C320,175 285,150 250,155 Z"/>
+  <text x="225" y="145" class="label">Frontal</text>
+
+  <path id="MotorCortex" class="region"
+    d="M355,190 C330,230 328,290 355,325
+       C392,355 440,350 470,320
+       C445,285 445,240 470,210
+       C435,185 395,175 355,190 Z"/>
+  <text x="360" y="178" class="label">Motor</text>
+
+  <path id="SomatosensoryCortex" class="region"
+    d="M485,205 C465,245 465,295 490,330
+       C535,360 585,335 605,300
+       C585,275 585,235 605,210
+       C575,180 525,180 485,205 Z"/>
+  <text x="495" y="195" class="label">Somato</text>
+</svg>
