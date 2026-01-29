@@ -3,16 +3,36 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Brain Demo</title>
+  <title>LabName</title>
   <link rel="stylesheet" href="./styles.css" />
 </head>
 <body>
-  <main class="wrap">
-    <h1>脳（仮SVG）ぐりぐり＋クリック デモ</h1>
-    <p>ドラッグで回転（擬似）／クリックで反応（console + 表示）</p>
+  <!-- 左上にLabNameだけ -->
+  <header class="topbar">
+    <a class="brand" href="#top">LabName</a>
+    <a class="pub-link" href="#publications">Publications</a>
+  </header>
 
-    <div id="svgHost" class="svg-host"></div>
-    <div id="toast" class="toast" hidden></div>
+  <main id="top" class="page">
+    <!-- トップ：SVGをでかく -->
+    <section class="hero">
+      <div id="svgHost" class="svg-host" aria-label="Brain SVG"></div>
+      <div id="toast" class="toast" hidden></div>
+    </section>
+
+    <!-- 下：業績 -->
+    <section id="publications" class="section">
+      <h2>Publications</h2>
+
+      <div class="pub-controls">
+        <input id="pubSearch" class="pub-search" placeholder="Search (title/author)" />
+      </div>
+
+      <ul id="pubList" class="pub-list">
+        <li><span class="pub-year">2025</span><span class="pub-text">Author, “Paper Title”, Conference/Journal.</span></li>
+        <li><span class="pub-year">2024</span><span class="pub-text">Author, “Another Paper”, Journal.</span></li>
+      </ul>
+    </section>
   </main>
 
   <script src="./main.js"></script>
