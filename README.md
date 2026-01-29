@@ -1,2 +1,2 @@
 # labsite
-kanoh.lab HP
+lab HP
