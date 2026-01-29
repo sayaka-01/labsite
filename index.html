@@ -7,7 +7,46 @@
   <link rel="stylesheet" href="./styles.css" />
 </head>
 <body>
-  <h1>研究室ホームページ</h1>
-  <p>GitHub Pages 公開テスト</p>
+  <header class="topbar">
+    <div class="brand">Lab Name</div>
+    <nav class="nav">
+      <a href="#publications">業績</a>
+    </nav>
+  </header>
+
+  <main class="wrap">
+    <section class="hero">
+      <div class="left">
+        <h1>研究室ホームページ</h1>
+        <p>
+          脳の部位をクリックすると説明が出ます。
+          業績は <a class="inline-link" href="#publications">こちら</a>。
+        </p>
+      </div>
+
+      <div class="right">
+        <div id="svgHost" class="svg-host" aria-label="Brain SVG"></div>
+        <div class="hint">🖱 ドラッグで回転（擬似） / クリックで説明</div>
+      </div>
+    </section>
+
+    <section id="publications" class="section">
+      <h2>Publications</h2>
+      <ul>
+        <li>2025 ...</li>
+        <li>2024 ...</li>
+      </ul>
+    </section>
+  </main>
+
+  <!-- modal -->
+  <div id="backdrop" class="backdrop" hidden></div>
+  <div id="modal" class="modal" hidden>
+    <button id="close" class="close">×</button>
+    <h3 id="mTitle"></h3>
+    <div id="mBody"></div>
+  </div>
+
+  <script src="./main.js"></script>
 </body>
 </html>
