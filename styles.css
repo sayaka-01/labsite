@@ -1,19 +1,68 @@
+:root{
+  --bg:#0b0f19;
+  --panel:#111827;
+  --text:#e5e7eb;
+  --muted:#9ca3af;
+  --accent:#60a5fa;
+  --border:rgba(255,255,255,.10);
+}
+
+*{ box-sizing:border-box; }
+html,body{ height:100%; }
 body{
   margin:0;
-  font-family: system-ui, sans-serif;
-  background:#0b0f19;
-  color:#e5e7eb;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans JP", sans-serif;
+  background: var(--bg);
+  color: var(--text);
 }
-.wrap{
-  width:min(980px, 92vw);
-  margin:0 auto;
-  padding:24px 0 60px;
+
+/* 左上：LabNameだけ（＋右にPublicationsリンク） */
+.topbar{
+  position: fixed;
+  top: 14px;
+  left: 16px;
+  right: 16px;
+  z-index: 10;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  pointer-events:none; /* 背景上にいてもSVG操作を邪魔しない */
+}
+.brand, .pub-link{
+  pointer-events:auto; /* リンクだけクリックできる */
+  text-decoration:none;
+  color: var(--text);
+  font-weight: 700;
+  padding: 10px 12px;
+  border-radius: 14px;
+  background: rgba(17,24,39,.55);
+  border: 1px solid var(--border);
+  backdrop-filter: blur(10px);
+}
+.pub-link{
+  color: rgba(229,231,235,.92);
+  font-weight: 600;
+}
+.brand:hover, .pub-link:hover{
+  border-color: rgba(255,255,255,.18);
+}
+
+/* ページ全体 */
+.page{
+  width: min(1100px, 94vw);
+  margin: 0 auto;
+}
+
+/* トップ：SVGどーん */
+.hero{
+  padding: 72px 0 20px; /* fixed header分の余白 */
 }
 .svg-host{
-  height:520px;
-  border-radius:18px;
-  border:1px solid rgba(255,255,255,.10);
-  background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
+  height: min(76vh, 720px);
+  border-radius: 22px;
+  border: 1px solid var(--border);
+  background: radial-gradient(900px 500px at 50% 0%, rgba(96,165,250,.16), transparent 60%),
+              linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
   display:flex;
   align-items:center;
   justify-content:center;
@@ -21,23 +70,68 @@ body{
   position:relative;
 }
 .svg-host svg{
-  width:95%;
-  height:95%;
+  width: 96%;
+  height: 96%;
   transform-origin: 50% 50%;
-  cursor:grab;
+  cursor: grab;
   user-select:none;
-  touch-action:none; /* これ重要：スマホ/タッチで誤作動減る */
+  touch-action:none;
 }
+
+/* 下：Publications */
+.section{
+  padding: 30px 0 70px;
+  border-top: 1px solid rgba(255,255,255,.08);
+}
+.section h2{
+  margin: 0 0 14px;
+  font-size: 22px;
+}
+
+.pub-controls{ margin: 8px 0 12px; }
+.pub-search{
+  width: min(520px, 100%);
+  padding: 10px 12px;
+  border-radius: 14px;
+  border: 1px solid rgba(255,255,255,.10);
+  background: rgba(17,24,39,.55);
+  color: var(--text);
+  outline:none;
+}
+.pub-search::placeholder{ color: rgba(156,163,175,.8); }
+
+.pub-list{
+  list-style:none;
+  padding:0;
+  margin:0;
+}
+.pub-list li{
+  display:flex; gap:10px; align-items:baseline;
+  padding: 12px 12px;
+  border-radius: 16px;
+  border: 1px solid rgba(255,255,255,.08);
+  background: rgba(17,24,39,.35);
+  margin-bottom: 10px;
+}
+.pub-year{
+  width:56px;
+  font-weight:800;
+  color: rgba(229,231,235,.95);
+  flex: 0 0 auto;
+}
+.pub-text{ color: rgba(229,231,235,.92); }
+
+/* クリック結果の小さい表示（デモ用） */
 .toast{
-  position:fixed;
-  left:50%;
-  bottom:22px;
-  transform:translateX(-50%);
-  padding:10px 12px;
-  border-radius:14px;
-  border:1px solid rgba(255,255,255,.12);
-  background:rgba(17,24,39,.85);
-  color:rgba(229,231,235,.92);
+  position: fixed;
+  left: 50%;
+  bottom: 18px;
+  transform: translateX(-50%);
+  padding: 10px 12px;
+  border-radius: 14px;
+  border: 1px solid rgba(255,255,255,.12);
+  background: rgba(17,24,39,.85);
+  color: rgba(229,231,235,.92);
   backdrop-filter: blur(10px);
-  font-size:14px;
+  font-size: 14px;
 }
