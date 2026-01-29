@@ -1,38 +1,13 @@
 const host = document.getElementById("svgHost");
+const toast = document.getElementById("toast");
 
-// modal
-const backdrop = document.getElementById("backdrop");
-const modal = document.getElementById("modal");
-const closeBtn = document.getElementById("close");
-const mTitle = document.getElementById("mTitle");
-const mBody = document.getElementById("mBody");
-
-function openModal(title, html){
-  mTitle.textContent = title;
-  mBody.innerHTML = html;
-  backdrop.hidden = false;
-  modal.hidden = false;
+function showToast(text){
+  toast.textContent = text;
+  toast.hidden = false;
+  clearTimeout(showToast._t);
+  showToast._t = setTimeout(() => (toast.hidden = true), 1200);
 }
-function closeModal(){
-  backdrop.hidden = true;
-  modal.hidden = true;
-}
-backdrop.addEventListener("click", closeModal);
-closeBtn.addEventListener("click", closeModal);
 
-// ここに「SVGの部位ID -> 説明」を書く（あとで増やす）
-const PART_INFO = {
-  FrontalLobe: {
-    title: "前頭葉",
-    html: `意思決定・計画など。<br><br><a class="inline-link" href="#publications">業績一覧</a>`
-  },
-  MotorCortex: {
-    title: "一次運動野",
-    html: `運動に関わる領域。MI/SMRなど。`
-  }
-};
-
-// SVGをinlineで読み込む（これがクリック可能にする鍵）
 fetch("./assets/brain.svg")
   .then(r => r.text())
   .then(svgText => {
@@ -41,56 +16,53 @@ fetch("./assets/brain.svg")
     const svg = host.querySelector("svg");
     if (!svg) throw new Error("SVG not found");
 
-    // ---- 擬似回転（ドラッグで回す）----
+    // --- ぐりぐり（擬似回転）---
     let dragging = false;
+    let moved = false;
     let startX = 0;
     let rot = 0;
 
-    const down = (e) => {
+    svg.addEventListener("pointerdown", (e) => {
       dragging = true;
+      moved = false;
       startX = e.clientX;
+      svg.setPointerCapture(e.pointerId);
       svg.style.cursor = "grabbing";
-    };
-    const move = (e) => {
+    });
+
+    svg.addEventListener("pointermove", (e) => {
       if (!dragging) return;
       const dx = e.clientX - startX;
+      if (Math.abs(dx) > 2) moved = true;
       startX = e.clientX;
-      rot += dx * 0.4; // 回転の感度
+      rot += dx * 0.35;
       svg.style.transform = `rotate(${rot}deg)`;
-    };
-    const up = () => {
+    });
+
+    svg.addEventListener("pointerup", () => {
       dragging = false;
       svg.style.cursor = "grab";
-    };
+    });
 
-    svg.addEventListener("pointerdown", down);
-    window.addEventListener("pointermove", move);
-    window.addEventListener("pointerup", up);
-
-    // ---- クリック判定（部位IDがある前提）----
-    // クリックされた要素から、親を辿って id を探す
+    // --- クリック（領域IDを拾う）---
     svg.addEventListener("click", (e) => {
-      // ドラッグ直後の誤クリックを減らしたいならここを工夫できる
+      // ドラッグ直後の誤クリックを抑制
+      if (moved) return;
+
       let el = e.target;
       for (let i = 0; i < 6 && el; i++){
-        if (el.id && PART_INFO[el.id]) {
-          const info = PART_INFO[el.id];
-          openModal(info.title, info.html);
-
-          // モーダル内の #リンククリックでモーダル閉じる
-          mBody.querySelectorAll('a[href^="#"]').forEach(a=>{
-            a.addEventListener("click", closeModal, { once:true });
-          });
+        if (el.id) {
+          console.log("Clicked:", el.id);
+          showToast(`Clicked: ${el.id}`);
           return;
         }
         el = el.parentElement;
       }
-
-      // 何がクリックされてるか確認用（開発中だけ）
-      // console.log("clicked:", e.target?.id, e.target);
+      console.log("Clicked: (no id)");
+      showToast("Clicked: (no id)");
     });
   })
   .catch(err => {
     console.error(err);
-    openModal("エラー", "SVGの読み込みに失敗しました。assets/brain.svg のパスを確認してね。");
+    host.innerHTML = `<div style="padding:18px;color:#fca5a5">SVG読み込み失敗：assets/brain.svg を確認</div>`;
   });
